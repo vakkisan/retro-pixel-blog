@@ -51,12 +51,14 @@ cd retro-pixel-portfolio
 npm install
 
 3. Create a `.env.local` file in the root directory and add your environment variables:
-`
+
+```bash
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
 NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
 NEXT_PUBLIC_CALENDLY_URL=your_calendly_url
-`
+```
+
 4. Start the development server:
 
 npm run dev
@@ -70,16 +72,18 @@ npm start
 
 
 ## 📁 Project Structure
-**
+
+```bash
 retro-pixel-portfolio/
 ├── app/ # Next.js app directory
-│ ├── components/ # React components
-│ ├── hooks/ # Custom React hooks
-│ ├── lib/ # Utility functions
-│ └── page.tsx # Home page
+│   ├── components/ # React components
+│   ├── hooks/ # Custom React hooks
+│   ├── lib/ # Utility functions
+│   └── page.tsx # Home page
 ├── public/ # Static assets
 └── styles/ # Global styles
-**
+```
+
 
 
 ## 🎨 Customization
