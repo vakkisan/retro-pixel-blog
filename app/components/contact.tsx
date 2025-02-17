@@ -2,6 +2,7 @@ import { Github, Instagram, Linkedin, Youtube } from "lucide-react"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import BlinkingCursor from "./BlinkingCursor"
+import { CalendlyButton } from "./CalendlyScheduler"
 
 export default function Contact() {
   return (
@@ -16,10 +17,13 @@ export default function Contact() {
             >
               Let's talk about it <BlinkingCursor />
             </Link>
+            <div className="flex justify-center">
+              <CalendlyButton />
+            </div>
             <div className="mt-12">
               <div className="mb-4">
                 <a href="mailto:vniredi@gmail.com" className="font-mono text-muted-foreground hover:text-green-400">
-                vniredi@gmail.com
+                  vniredi@gmail.com
                 </a>
               </div>
               <div className="font-mono text-sm text-muted-foreground">
