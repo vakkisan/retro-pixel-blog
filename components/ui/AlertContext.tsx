@@ -1,34 +1,33 @@
 "use client"
 
-import type React from "react"
-import { createContext, useContext, useState, type ReactNode } from "react"
-import Alert, { type AlertProps } from "./Alert"
+import React, { createContext, useContext, useState } from "react"
+import { Alert } from "./Alert"
+
+type AlertType = "success" | "error" | "warning" | "info"
 
 interface AlertContextType {
-  showAlert: (message: string, type: "success" | "error" | "info", duration?: number) => void
+  showAlert: (message: string, type: AlertType) => void
 }
 
 const AlertContext = createContext<AlertContextType | undefined>(undefined)
 
-export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [alerts, setAlerts] = useState<AlertProps[]>([])
+export function AlertProvider({ children }: { children: React.ReactNode }) {
+  const [alert, setAlert] = useState<{ message: string; type: AlertType } | null>(null)
 
-  const showAlert = (message: string, type: "success" | "error" | "info", duration = 5000) => {
-    const newAlert: AlertProps = { message, type, duration }
-    setAlerts((prevAlerts) => [...prevAlerts, newAlert])
+  const showAlert = (message: string, type: AlertType) => {
+    setAlert({ message, type })
+    setTimeout(() => setAlert(null), 3000)
   }
 
   return (
     <AlertContext.Provider value={{ showAlert }}>
       {children}
-      {alerts.map((alert, index) => (
-        <Alert key={index} {...alert} />
-      ))}
+      {alert && <Alert message={alert.message} variant={alert.type} />}
     </AlertContext.Provider>
   )
 }
 
-export const useAlert = () => {
+export function useAlert() {
   const context = useContext(AlertContext)
   if (context === undefined) {
     throw new Error("useAlert must be used within an AlertProvider")

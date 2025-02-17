@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useAlert } from "@/components/ui/AlertContext"
+import emailjs from '@emailjs/browser'
 
 export function HireMeModal() {
   const [isOpen, setIsOpen] = useState(false)
@@ -17,19 +18,45 @@ export function HireMeModal() {
     message: "",
   })
   const { showAlert } = useAlert()
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // Here you would typically send the form data to your server or a third-party service
-    console.log("Form submitted:", formData)
-    showAlert("Message Sent! Thank you for your interest. I'll get back to you soon!", "success")
-    setIsOpen(false)
-    setFormData({ name: "", email: "", message: "" })
+    setStatus('sending')
+
+    const form = e.currentTarget
+    const formElements = new FormData(form)
+
+    const emailData = {
+      from_name: formData.name,
+      from_email: formData.email,
+      message: formData.message,
+      subject: "Hire Me Inquiry",
+    }
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
+        emailData,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
+      )
+      setStatus('success')
+      setFormData({ name: "", email: "", message: "" })
+      showAlert("Message Sent! Thank you for your interest. I'll get back to you soon!", "success")
+      setTimeout(() => {
+        setIsOpen(false)
+      }, 2000)
+    } catch (error) {
+      console.error('Error sending email:', error)
+      setStatus('error')
+      showAlert("Failed to send message. Please try again.", "error")
+    }
   }
 
   return (
@@ -80,9 +107,16 @@ export function HireMeModal() {
                 required
               />
             </div>
-            <Button type="submit" className="font-pixel w-full">
-              Send Message
+            <Button type="submit" className="font-pixel w-full" disabled={status === 'sending'}>
+              {status === 'sending' ? 'Sending...' : 'Send Message'}
             </Button>
+            
+            {status === 'success' && (
+              <p className="text-green-500 mt-2">Message sent successfully!</p>
+            )}
+            {status === 'error' && (
+              <p className="text-red-500 mt-2">Failed to send message. Please try again.</p>
+            )}
           </form>
         </DialogContent>
       </Dialog>

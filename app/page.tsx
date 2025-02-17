@@ -12,6 +12,12 @@ import TechStack from "./components/TechStack"
 import { HireMeModal } from "./components/HireMeModal"
 import { useState } from "react"
 import { useAlert } from "@/components/ui/AlertContext"
+import { initEmailJS } from './utils/emailjs-config'
+
+// Initialize EmailJS
+if (typeof window !== 'undefined') {
+  initEmailJS()
+}
 
 export default function Home() {
   const [isDownloading, setIsDownloading] = useState(false)
