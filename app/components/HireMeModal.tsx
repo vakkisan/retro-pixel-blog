@@ -111,9 +111,6 @@ export function HireMeModal() {
               {status === 'sending' ? 'Sending...' : 'Send Message'}
             </Button>
             
-            {status === 'success' && (
-              <p className="text-green-500 mt-2">Message sent successfully!</p>
-            )}
             {status === 'error' && (
               <p className="text-red-500 mt-2">Failed to send message. Please try again.</p>
             )}
