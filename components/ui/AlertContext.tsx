@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useState } from "react"
-import { Alert } from "./Alert"
+import { Alert } from "./alert"
 
 type AlertType = "success" | "error" | "warning" | "info"
 

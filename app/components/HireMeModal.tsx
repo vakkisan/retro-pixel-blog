@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useAlert } from "@/components/ui/AlertContext"
 import emailjs from '@emailjs/browser'
+import { Alert } from "@/components/ui/alert"
 
 export function HireMeModal() {
   const [isOpen, setIsOpen] = useState(false)
